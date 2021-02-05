@@ -1,0 +1,24 @@
+{
+  "name": "codigo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Spooked-Potato/PAP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Spooked-Potato/PAP/issues"
+  },
+  "homepage": "https://github.com/Spooked-Potato/PAP#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
