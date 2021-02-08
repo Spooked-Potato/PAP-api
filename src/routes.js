@@ -1,15 +1,26 @@
-const express= require('express')
+const express = require('express')
+const routes = express.Router()
 
-const routes= express.Router()
+const UserController = require('./controllers/UserController')
+const AuthController = require('./controllers/AuthenticationController')
+const AuthService = require('./services/AuthService')
 
-const userController= require('./controllers/UserController')
+const user = new UserController();
+const authController = new AuthController();
+const authService = new AuthService();
 
-routes.get('/', (request, response)=>{
-  return response.send('hellow horld')
+
+routes.get('/', (request, response) => {
+  return response.send('hello world')
 })
 
-routes.post('/users', userController.create)
-routes.get('/users', userController.show)
-routes.delete('/users/:id', userController.destroy)
 
-module.exports=routes 
+
+
+routes.post('/login', authController.login)
+
+routes.post('/users', user.create)
+routes.get('/users', authService.verifyToken, user.show)
+routes.delete('/users/:id', user.destroy)
+
+module.exports = routes

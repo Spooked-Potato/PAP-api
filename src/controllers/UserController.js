@@ -3,7 +3,7 @@ const connPath = path.resolve(__dirname, "..", "database", "connection.js")
 const knex = require(connPath)
 const bcrypt = require("bcrypt")
 
-module.exports = {
+class UserController {
   async create(request, response) {
     try {
       const {
@@ -36,7 +36,7 @@ module.exports = {
         message: e.message
       })
     }
-  },
+  }
 
   async show(request, response) {
     try {
@@ -48,7 +48,7 @@ module.exports = {
         message: e.message
       })
     }
-  },
+  }
 
   async destroy(request, response) {
     try {
@@ -74,3 +74,4 @@ module.exports = {
     }
   }
 }
+module.exports = UserController
