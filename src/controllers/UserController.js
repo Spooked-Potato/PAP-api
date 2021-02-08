@@ -1,11 +1,11 @@
-const path= require("path")
-const connPath=path.resolve(__dirname, "..", "database", "connection.js")
+const path = require("path")
+const connPath = path.resolve(__dirname, "..", "database", "connection.js")
 const knex = require(connPath)
+const bcrypt = require("bcrypt")
 
 module.exports = {
-  async create(request, response){
-    try{
-      //melhorar com as verificacoes necessarias
+  async create(request, response) {
+    try {
       const {
         username,
         password,
@@ -13,40 +13,54 @@ module.exports = {
         gender,
         admin
       } = request.body;
-  
-      const [id]= await knex('Users').insert({
+
+      const emailExists = await knex('Users').where('email', email).select('id').first()
+
+      if (emailExists) return response.status(400).json({
+        message: 'Email already exists!'
+      })
+
+      const hashedpw = await bcrypt.hash(password, 10);
+
+      await knex('Users').insert({
         username,
-        password,
+        password: hashedpw,
         email,
         gender,
         admin
       })
-  
+
       return response.sendStatus(201)
-    }catch(e){
-      return response.json({message:e.message})
+    } catch (e) {
+      return response.json({
+        message: e.message
+      })
     }
   },
 
-  async show(request, response){
-    try{
-      const users= await knex('Users').select('*')
+  async show(request, response) {
+    try {
+      const users = await knex('Users').select('*')
 
       return response.send(users)
-    }catch(e){
-      return response.json({message:e.message})
+    } catch (e) {
+      return response.json({
+        message: e.message
+      })
     }
   },
 
-  async destroy(request, response){
+  async destroy(request, response) {
     try {
-      const {id} = request.params
+      const {
+        id
+      } = request.params
 
-      const user= await knex('Users').where('id', id).select('id').first()
+      const user = await knex('Users').where('id', id).select('id').first()
 
-      if(!user){
+      if (!user) {
         return response.status(404).send({
-          message:'User not found'
+          message: 'User not found'
         })
       }
 
@@ -54,7 +68,9 @@ module.exports = {
 
       return response.sendStatus(204)
     } catch (e) {
-      return response.json({message:e.message})
+      return response.json({
+        message: e.message
+      })
     }
   }
 }
