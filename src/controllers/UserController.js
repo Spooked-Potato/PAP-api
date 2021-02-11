@@ -60,13 +60,59 @@ class UserController {
 
       if (!user) {
         return response.status(404).send({
-          message: 'User not found'
+          message: 'User not found!'
         })
       }
 
       await knex('Users').where('id', id).delete()
 
       return response.sendStatus(204)
+    } catch (e) {
+      return response.json({
+        message: e.message
+      })
+    }
+  }
+
+  async update(request, response) {
+    try {
+      const {
+        id,
+
+      } = request.params
+
+      const {
+        username,
+        password
+      } = request.body
+
+      const user = await knex('Users').where('id', id).first()
+
+      if (!user) {
+        return response.status(404).send({
+          message: 'User not found!'
+        })
+      }
+
+      if (!username && !password) {
+        return response.status(404).send({
+          message: 'Invalid data!'
+        })
+      }
+
+      if (username) {
+        await knex('Users').where('id', id).update('username', username)
+      }
+
+      if (password) {
+        const hashedpw = await bcrypt.hash(password, 10);
+
+        await knex('Users').where('id', id).update('password', hashedpw)
+      }
+
+      return response.status(200).send({
+        message: 'User updated successfully!'
+      })
     } catch (e) {
       return response.json({
         message: e.message

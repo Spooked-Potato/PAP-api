@@ -20,7 +20,8 @@ routes.get('/', (request, response) => {
 routes.post('/login', authController.login)
 
 routes.post('/users', user.create)
-routes.get('/users', authService.verifyToken, user.show)
+routes.get('/users', user.show)
 routes.delete('/users/:id', user.destroy)
+routes.put('/users/:id', user.update)
 
 module.exports = routes
