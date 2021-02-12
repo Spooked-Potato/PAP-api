@@ -3,6 +3,7 @@ const knex = require('../database/connection')
 
 class AuthenticationController {
   async login(request, response) {
+    console.log('passou')
     try {
 
       const {

@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken');
 class AuthService {
   constructor() {}
 
+  static async hashPW(pw, salt = 10) {
+    return await bcrypt.hash(pw, salt)
+  }
+
   static async comparePW(originalPW, hashedPW) {
     return await bcrypt.compare(originalPW, hashedPW)
   }

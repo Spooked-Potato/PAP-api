@@ -1,7 +1,9 @@
 const path = require("path")
 const connPath = path.resolve(__dirname, "..", "database", "connection.js")
 const knex = require(connPath)
-const bcrypt = require("bcrypt")
+
+const AuthService = require('../services/AuthService')
+
 
 class UserController {
   async create(request, response) {
@@ -20,7 +22,7 @@ class UserController {
         message: 'Email already exists!'
       })
 
-      const hashedpw = await bcrypt.hash(password, 10);
+      const hashedpw = await AuthService.hashPW(password);
 
       await knex('Users').insert({
         username,
@@ -89,13 +91,13 @@ class UserController {
       const user = await knex('Users').where('id', id).first()
 
       if (!user) {
-        return response.status(404).send({
+        return response.status(404).json({
           message: 'User not found!'
         })
       }
 
       if (!username && !password) {
-        return response.status(404).send({
+        return response.status(404).json({
           message: 'Invalid data!'
         })
       }
@@ -105,12 +107,11 @@ class UserController {
       }
 
       if (password) {
-        const hashedpw = await bcrypt.hash(password, 10);
-
+        const hashedpw = await AuthService.hashPW(password);
         await knex('Users').where('id', id).update('password', hashedpw)
       }
 
-      return response.status(200).send({
+      return response.status(200).json({
         message: 'User updated successfully!'
       })
     } catch (e) {
