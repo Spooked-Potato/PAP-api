@@ -15,7 +15,8 @@ class AuthService {
   static generateToken(user) {
     return jwt.sign({
       id: user.id,
-      username: user.username
+      username: user.username,
+      admin: user.admin
     }, process.env.TOKEN, {
       expiresIn: process.env.EXPIRE_TIME
     })

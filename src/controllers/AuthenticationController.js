@@ -3,9 +3,7 @@ const knex = require('../database/connection')
 
 class AuthenticationController {
   async login(request, response) {
-    console.log('passou')
     try {
-
       const {
         username,
         password
@@ -28,7 +26,8 @@ class AuthenticationController {
 
       const auxUser = {
         id: user.id,
-        username: user.username
+        username: user.username,
+        admin: user.admin
       }
 
       const token = AuthService.generateToken(auxUser);

@@ -5,9 +5,10 @@ const knex = require(connPath)
 const UpperName = require("../utils/upperName")
 const CheckAdminRole = require("../utils/checkAdminRole")
 
-class CategoryController {
+class BrandController {
   async create(request, response) {
     try {
+
       const token = request.header('authentication')
 
       const isAdmin = new CheckAdminRole().checkRole(token)
@@ -17,71 +18,81 @@ class CategoryController {
       })
 
       const {
-        name,
-        description
+        name
       } = request.body
 
       const upperName = new UpperName().upperName(name)
 
-      const categoryExists = await knex('Category').where('name', name).select('id').first()
+      const brandExists = await knex('Brand').where('name', name).select('id').first()
 
-      if (categoryExists) return response.status(400).json({
-        message: 'Category already exists!'
+      if (brandExists) return response.status(400).json({
+        message: 'Brand already exists!'
       })
 
-      await knex('Category').insert({
+      console.log(request.file)
+
+      const brand = {
         name: upperName,
-        description
-      })
+        image: request.file.filename
+      }
+
+      await knex('Brand').insert(brand)
 
       return response.sendStatus(201)
     } catch (e) {
-      return response.status(500).json({
+      return response.json({
         message: e.message
       })
     }
   }
 
   async show(request, response) {
-    try {
-      const categories = await knex('Category').select('*')
 
-      return response.status(200).send(categories)
+    try {
+      const brands = await knex('Brand').select('name')
+
+      return response.status(200).send(brands)
+
     } catch (e) {
-      return response.status(500).json({
+      return response.json({
         message: e.message
       })
     }
+
   }
 
   async update(request, response) {
     try {
+
       const token = request.header('authentication')
 
       const isAdmin = new CheckAdminRole().checkRole(token)
 
       if (isAdmin === false) return response.status(403).json({
-        message: 'Access denied! Only admins!!! Only admins!!!'
+        message: 'Access denied! Only admins!!!'
       })
 
       const {
-        id,
+        id
       } = request.params
 
       const {
-        name,
-        description
+        name
       } = request.body
 
-      const category = await knex('Category').where('id', id).first()
+      const {
+        image
+      } = request.file.filename
 
-      if (!category) {
+      const brand = await knex('Brand').where('id', id).first()
+
+      if (!brand) {
         return response.status(404).json({
-          message: 'Category not found!'
+          message: 'Brand not found!'
         })
       }
 
-      if (!name && !description) {
+      if (!name && !image) {
         return response.status(404).json({
           message: 'Invalid data!'
         })
@@ -89,21 +100,23 @@ class CategoryController {
 
       if (name) {
         const upperName = new UpperName().upperName(name)
-        await knex('Category').where('id', id).update('name', upperName)
+        await knex('Brand').where('id', id).update('name', upperName)
       }
 
-      if (description) {
-        await knex('Category').where('id', id).update('description', description)
+      if (image) {
+        await knex('Brand').where('id', id).update('image', image)
       }
 
       return response.status(200).json({
-        message: 'Category updated successfully!'
+        message: 'Brand updated successfully!'
       })
+
     } catch (e) {
       return response.json({
         message: e.message
       })
     }
+
   }
 
   async destroy(request, response) {
@@ -120,17 +133,18 @@ class CategoryController {
         id
       } = request.params
 
-      const category = await knex('Category').where('id', id).select('id').first()
+      const brand = await knex('Brand').where('id', id).select('id').first()
 
-      if (!category) {
+      if (!brand) {
         return response.status(404).send({
-          message: 'Category not found!'
+          message: 'Brand not found!'
         })
       }
 
-      await knex('category').where('id', id).delete()
+      await knex('brand').where('id', id).delete()
 
       return response.sendStatus(204)
+
     } catch (e) {
       return response.json({
         message: e.message
@@ -139,4 +153,4 @@ class CategoryController {
   }
 }
 
-module.exports = CategoryController;
+module.exports = BrandController

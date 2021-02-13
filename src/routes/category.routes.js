@@ -8,9 +8,10 @@ const category = new CategoryController();
 const authService = new AuthService();
 
 routes.get('/', category.show)
-routes.post('/', category.create)
-routes.delete('/:id', category.destroy)
-routes.put('/:id', category.update)
 
+//rotas para admin
+routes.post('/', authService.verifyToken, category.create)
+routes.delete('/:id', authService.verifyToken, category.destroy)
+routes.put('/:id', authService.verifyToken, category.update)
 
 module.exports = routes
