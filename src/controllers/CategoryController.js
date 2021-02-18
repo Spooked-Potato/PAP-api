@@ -21,13 +21,14 @@ class CategoryController {
         description
       } = request.body
 
-      const upperName = new UpperName().upperName(name)
 
       const categoryExists = await knex('Category').where('name', name).select('id').first()
 
       if (categoryExists) return response.status(400).json({
         message: 'Category already exists!'
       })
+
+      const upperName = new UpperName().upperName(name)
 
       await knex('Category').insert({
         name: upperName,
