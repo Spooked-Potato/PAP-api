@@ -1,3 +1,6 @@
+/**
+ * Arquivo de confguraçao da BD
+ */
 module.exports = {
 
   development: {

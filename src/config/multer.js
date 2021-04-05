@@ -1,3 +1,7 @@
+/**
+ * Arquivo de configuração do multer
+ */
+
 const multer = require("multer")
 const path = require("path")
 

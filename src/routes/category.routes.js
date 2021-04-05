@@ -1,3 +1,6 @@
+/**
+ * Arquivo dos endpoints relacionados as categorias
+ */
 const express = require('express')
 const routes = express.Router()
 

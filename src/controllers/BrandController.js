@@ -6,6 +6,12 @@ const UpperName = require("../utils/upperName")
 const CheckAdminRole = require("../utils/checkAdminRole")
 
 class BrandController {
+  /**
+   * Criar uma marca de motas no sistema
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Status code 201 ou a mensagem de erro
+   */
   async create(request, response) {
     try {
 
@@ -46,6 +52,12 @@ class BrandController {
     }
   }
 
+  /**
+   * Listar todas as marcas existentes no sistema
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Lista com as marcas todas já existentes ou a mensagem de erro
+   */
   async show(request, response) {
 
     try {
@@ -61,6 +73,12 @@ class BrandController {
 
   }
 
+  /**
+   * Atualizar os dados de uma marca
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Codigo e a mensagem de sucesso ou uma mensagem de erro
+   */
   async update(request, response) {
     try {
 
@@ -119,6 +137,12 @@ class BrandController {
 
   }
 
+  /**
+   * Eliminar uma marca do sistema
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Código de sucesso ou uma mensagem de erro
+   */
   async destroy(request, response) {
     try {
       const token = request.header('authentication')

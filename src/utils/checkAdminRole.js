@@ -5,6 +5,11 @@ const knex = require(connPath)
 const AuthService = require('../services/AuthService')
 
 class CheckAdminRole {
+  /**
+   * Verificar se o user logado tem role de admin
+   * @param {string} token 
+   * @returns 
+   */
   checkRole(token) {
     const user = new AuthService().decodeToken(token)
 

@@ -4,8 +4,13 @@ const knex = require(connPath)
 
 const AuthService = require('../services/AuthService')
 
-
 class UserController {
+  /**
+   * Criar um novo utilizador no sistema
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Mensagem de sucesso
+   */
   async create(request, response) {
     try {
       const {
@@ -40,6 +45,12 @@ class UserController {
     }
   }
 
+  /**
+   * Listar todos os utilizadores
+   * @param {*} request 
+   * @param {*} response 
+   * @returns lista com todos os utilizadores existentes
+   */
   async show(request, response) {
     try {
       const users = await knex('Users').select('*')
@@ -52,6 +63,12 @@ class UserController {
     }
   }
 
+  /**
+   * Apagar um utilizador do sistema
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Código de sucesso
+   */
   async destroy(request, response) {
     try {
       const {
@@ -76,6 +93,12 @@ class UserController {
     }
   }
 
+  /**
+   * Atualizar os dados do utilizador
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Mensagem de sucesso ou mensagem de erro
+   */
   async update(request, response) {
     try {
       const {
