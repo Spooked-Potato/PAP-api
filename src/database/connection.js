@@ -1,7 +1,8 @@
-const knex = require("knex");
-const path= require('path')
+/**
+ * Arquivo de conexão entre os controllers e a BD
+ */
 
-const configPath = path.resolve(__dirname, '..', 'knexfile.js')
+const knex = require("knex");
 
 const configuration = require('../../knexfile');
 

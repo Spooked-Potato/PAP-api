@@ -2,6 +2,9 @@ const AuthService = require('../services/AuthService')
 const knex = require('../database/connection')
 
 class AuthenticationController {
+  /**
+   * Função de login no sistema
+   */
   async login(request, response) {
     try {
       const {

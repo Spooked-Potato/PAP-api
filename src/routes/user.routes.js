@@ -1,3 +1,6 @@
+/**
+ * Arquivo dos endpoints relacionados aos utilizadores
+ */
 const express = require('express')
 const routes = express.Router()
 

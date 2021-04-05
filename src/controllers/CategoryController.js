@@ -6,6 +6,12 @@ const UpperName = require("../utils/upperName")
 const CheckAdminRole = require("../utils/checkAdminRole")
 
 class CategoryController {
+  /**
+   * Criar uma categoria nova no sistema
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Código de sucesso ou uma mensagem de erro
+   */
   async create(request, response) {
     try {
       const token = request.header('authentication')
@@ -43,6 +49,12 @@ class CategoryController {
     }
   }
 
+  /**
+   * Listar todas as categorias existentes
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Lista com todas as categorias ou uma mensagem de erro
+   */
   async show(request, response) {
     try {
       const categories = await knex('Category').select('*')
@@ -55,6 +67,12 @@ class CategoryController {
     }
   }
 
+  /**
+   * Atualizar os dados de uma categoria
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Mensagem de sucesso ou mensagem de erro
+   */
   async update(request, response) {
     try {
       const token = request.header('authentication')
@@ -107,6 +125,12 @@ class CategoryController {
     }
   }
 
+  /**
+   * Apagar uma categoria
+   * @param {*} request 
+   * @param {*} response 
+   * @returns Código de sucesso ou mensagem de erro
+   */
   async destroy(request, response) {
     try {
       const token = request.header('authentication')
